@@ -17,10 +17,9 @@ Rozpoczynam pakowanie do kolejnej paczki.
 liczba_przedmiotow = int(input("Liczba przedmiotów do wysyłki: "))
 
 lista = []
-lista_fun = []
 biezaca_przesylka = []
-biezaca_przesylka_fun = []
 wagi_przesylek = []
+puste_kg = []
 
 # for loop
 for i in range(1, (liczba_przedmiotow + 1)):
@@ -46,16 +45,22 @@ for i in range(1, (liczba_przedmiotow + 1)):
 
 # obiekty_w_paczce = len(biezaca_przesylka)
 waga_ost_paczki = sum(biezaca_przesylka)
-wagi_przesylek.append(waga_ost_paczki)
 
-print(f"Wysłano {len(lista)} przedmiotów o wagach {lista} w {len(wagi_przesylek)}"
-      f" paczkach. \nŁącznie wysłano {sum(lista)} kg."
-      f"\nLiczba wysłanych 'pustych' kilogramów wynosi"
-      f" {(len(wagi_przesylek)*20)-sum(lista)}.")
+if waga_ost_paczki >= 1:
+    wagi_przesylek.append(waga_ost_paczki)
 
-"""
-print(lista)
-print(wagi_przesylek)
-print(sum(wagi_przesylek))
-print(sum(lista))
-"""
+for waga in wagi_przesylek:
+    puste_kg.append(20 - waga)
+
+# indexing in Python starts from 0
+maks_puste_kg = max(puste_kg)
+index = (puste_kg.index(maks_puste_kg) + 1)
+
+print(f"Wysłano {len(lista)} przedmioty(ów) o wagach {lista} w {len(wagi_przesylek)}"
+      f" paczkach. \nŁącznie wysłano {sum(lista)} kg.")
+
+if sum(puste_kg) > 0:
+    print(f"\nLiczba wysłanych 'pustych' kilogramów wynosi"
+          f" {(len(wagi_przesylek)*20)-sum(lista)}."
+          f"\nPaczka z największą liczbą wysłanych 'pustych' kilogramów to paczka"
+          f" nr {index}, \nw której wysłano {maks_puste_kg} 'pustych' kilogramów")
