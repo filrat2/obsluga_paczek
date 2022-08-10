@@ -43,6 +43,7 @@ for i in range(1, (liczba_przedmiotow + 1)):
         biezaca_przesylka = []
         biezaca_przesylka.append(waga_przedmiotu)
 
+
 waga_ost_paczki = sum(biezaca_przesylka)
 
 if waga_ost_paczki >= 1:
