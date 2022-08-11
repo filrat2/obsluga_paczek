@@ -13,7 +13,14 @@ Rozpoczynam pakowanie do kolejnej paczki.
 
 
 # define objects
-liczba_przedmiotow = int(input("Liczba przedmiotów do wysyłki: "))
+while True:
+    try:
+        liczba_przedmiotow = int(input("Liczba przedmiotów do wysyłki: "))
+    except ValueError:
+        print("Wprowadzony atrybut nie jest liczbą całkowitą.")
+        continue
+    else:
+        break
 
 lista = []
 biezaca_przesylka = []
@@ -23,7 +30,14 @@ puste_kg = []
 
 # for loop
 for i in range(1, (liczba_przedmiotow + 1)):
-    waga_przedmiotu = float(input("Podaj wagę przedmiotu: "))
+    while True:
+        try:
+            waga_przedmiotu = float(input("Podaj wagę przedmiotu: "))
+        except ValueError:
+            print("Wprowadzony atrybut nie jest liczbą.")
+            continue
+        else:
+            break
     if waga_przedmiotu == 0:
         print(wiadomosc0)
         break
@@ -65,6 +79,7 @@ if sum(lista) == 0:
 print(f"\n----------\n"
       f"Wysłano {len(lista)} przedmioty(ów) o wagach {lista} w {len(wagi_przesylek)}"
       f" paczkach. \nŁącznie wysłano {sum(lista)} kg.")
+
 
 if sum(puste_kg) > 0:
     print(f"\nLiczba wysłanych 'pustych' kilogramów wynosi"
