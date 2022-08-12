@@ -16,11 +16,15 @@ Rozpoczynam pakowanie do kolejnej paczki.
 while True:
     try:
         liczba_przedmiotow = int(input("Liczba przedmiotów do wysyłki: "))
+        if liczba_przedmiotow <= 0:
+            raise ValueError()
     except ValueError:
-        print("Wprowadzony atrybut nie jest liczbą całkowitą.")
+        print("Wprowadzono niepoprawną wartość.")
         continue
     else:
         break
+
+MAKSYMALNA_WAGA_PACZKI = 20
 
 lista = []
 biezaca_przesylka = []
@@ -32,7 +36,7 @@ puste_kg = []
 for i in range(1, (liczba_przedmiotow + 1)):
     while True:
         try:
-            waga_przedmiotu = float(input("Podaj wagę przedmiotu: "))
+            waga_przedmiotu = float(input(f"Podaj wagę przedmiotu nr {i}: "))
         except ValueError:
             print("Wprowadzony atrybut nie jest liczbą.")
             continue
@@ -46,11 +50,11 @@ for i in range(1, (liczba_przedmiotow + 1)):
         break
     lista.append(waga_przedmiotu)
     biezaca_przesylka.append(waga_przedmiotu)
-    if sum(biezaca_przesylka) == 20:
+    if sum(biezaca_przesylka) == MAKSYMALNA_WAGA_PACZKI:
         print(wiadomosc2)
         wagi_przesylek.append(sum(biezaca_przesylka))
         biezaca_przesylka = []
-    if sum(biezaca_przesylka) > 20:
+    if sum(biezaca_przesylka) > MAKSYMALNA_WAGA_PACZKI:
         print(wiadomosc2)
         biezaca_przesylka = biezaca_przesylka[:-1]
         wagi_przesylek.append(sum(biezaca_przesylka))
@@ -68,8 +72,12 @@ for waga in wagi_przesylek:
 
 
 # indexing in Python starts from 0
-maks_puste_kg = max(puste_kg)
-index = (puste_kg.index(maks_puste_kg) + 1)
+try:
+    maks_puste_kg = max(puste_kg)
+    index = (puste_kg.index(maks_puste_kg) + 1)
+except ValueError:
+    maks_puste_kg = 0
+    index = 0
 
 if sum(lista) == 0:
     lista = []
@@ -77,12 +85,15 @@ if sum(lista) == 0:
 
 # printing final summary
 print(f"\n----------\n"
-      f"Wysłano {len(lista)} przedmioty(ów) o wagach {lista} w {len(wagi_przesylek)}"
+      f"Wysłano {len(lista)} przedmioty(ów) o wagach "
+      f"{lista if len(lista) > 0 else 0}"
+      f" w {len(wagi_przesylek)}"
       f" paczkach. \nŁącznie wysłano {sum(lista)} kg.")
-
 
 if sum(puste_kg) > 0:
     print(f"\nLiczba wysłanych 'pustych' kilogramów wynosi"
-          f" {(len(wagi_przesylek)*20)-sum(lista)}."
-          f"\nPaczka z największą liczbą wysłanych 'pustych' kilogramów to paczka"
-          f" nr {index}, \nw której wysłano {maks_puste_kg} 'pustych' kilogramów.")
+          f" {(len(wagi_przesylek) * 20)-sum(lista)}."
+          f"\nPaczka z największą liczbą wysłanych "
+          "'pustych' kilogramów to paczka"
+          f" nr {index}, \nw której wysłano {maks_puste_kg} "
+          "'pustych' kilogramów.")
